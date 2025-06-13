@@ -10,13 +10,14 @@ pids
 *.seed
 *.pid.lock
 
-# Logs
-logs/
+# Logs (keep structure, exclude content)
+logs/*.log
 *.log
 
-# Runtime data
-data/
-uploads/
+# Runtime data (keep structure, exclude sensitive content)
+data/*.sqlite
+data/*.db
+uploads/*.tmp
 *.sqlite
 *.db
 
@@ -78,7 +79,7 @@ bld/
 *.bak
 *.backup
 
-# Config files with sensitive data
+# Config files with sensitive data (keep example, exclude actual)
 config.json
 *.key
 *.pem
