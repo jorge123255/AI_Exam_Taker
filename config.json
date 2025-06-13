@@ -1,0 +1,63 @@
+{
+  "ollama": {
+    "endpoint": "http://192.168.1.10:11434",
+    "models": {
+      "vision": "qwen2.5vl:32b-q4_K_M",
+      "reasoning": "qwen2.5:7b",
+      "embedding": "qwen2.5:7b"
+    },
+    "timeout": 30000
+  },
+  "remotely": {
+    "connectionTimeout": 15000,
+    "screenshotInterval": 1500,
+    "reconnectAttempts": 5,
+    "reconnectDelay": 5000,
+    "quality": 80
+  },
+  "rdp": {
+    "defaultPort": 3389,
+    "connectionTimeout": 10000,
+    "screenshotInterval": 1000
+  },
+  "rag": {
+    "chromadb": {
+      "host": "localhost",
+      "port": 8000,
+      "collection": "exam_answers"
+    },
+    "similarity_threshold": 0.7,
+    "max_results": 5
+  },
+  "search": {
+    "firecrawl": {
+      "api_key": "",
+      "enabled": true
+    },
+    "tully": {
+      "api_key": "",
+      "enabled": false
+    }
+  },
+  "server": {
+    "port": 3001,
+    "host": "localhost"
+  },
+  "database": {
+    "path": "./data/exam_taker.db"
+  },
+  "ai": {
+    "confidence_threshold": 0.8,
+    "max_retries": 3,
+    "screenshot_analysis_delay": 2000,
+    "vision_analysis_timeout": 30000,
+    "reasoning_timeout": 20000,
+    "uncertainty_threshold": 0.6,
+    "auto_retry_on_failure": true
+  },
+  "logging": {
+    "level": "info",
+    "console": true,
+    "file": "./logs/app.log"
+  }
+}

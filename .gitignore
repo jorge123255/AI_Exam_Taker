@@ -10,16 +10,8 @@ pids
 *.seed
 *.pid.lock
 
-# Logs (keep structure, exclude content)
-logs/*.log
+# Logs (keep structure, exclude log files)
 *.log
-
-# Runtime data (keep structure, exclude sensitive content)
-data/*.sqlite
-data/*.db
-uploads/*.tmp
-*.sqlite
-*.db
 
 # Environment variables
 .env
@@ -44,15 +36,11 @@ Thumbs.db
 *.swo
 *~
 
-# Build outputs
+# Build outputs (keep source, exclude builds)
 build/
 dist/
-*.exe
-*.dll
-*.so
-*.dylib
 
-# .NET
+# .NET (keep source, exclude builds)
 bin/
 obj/
 *.user
@@ -79,14 +67,7 @@ bld/
 *.bak
 *.backup
 
-# Config files with sensitive data (keep example, exclude actual)
-config.json
-*.key
-*.pem
-*.p12
-*.pfx
-
-# AI model files (if large)
+# Large AI model files (if any)
 *.model
 *.weights
 *.h5
