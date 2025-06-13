@@ -1,0 +1,250 @@
+[2025-06-13T03:52:15.518Z] INFO: Initializing database...
+[2025-06-13T03:52:15.526Z] INFO: Database initialized successfully
+[2025-06-13T03:52:15.527Z] INFO: Exam session created: {"id":"test_session_1749786735526","rdp_host":"test.example.com","rdp_port":3389}
+[2025-06-13T03:52:15.527Z] INFO: Database connection closed
+[2025-06-13T03:53:23.951Z] INFO: Initializing database...
+[2025-06-13T03:53:23.956Z] INFO: Database initialized successfully
+[2025-06-13T03:53:23.957Z] INFO: Exam session created: {"id":"test_session_1749786803956","rdp_host":"test.example.com","rdp_port":3389}
+[2025-06-13T03:53:23.958Z] INFO: Database connection closed
+[2025-06-13T03:53:31.215Z] INFO: Initializing database...
+[2025-06-13T03:53:31.218Z] INFO: Database initialized successfully
+[2025-06-13T03:53:31.219Z] INFO: Exam session created: {"id":"test_session_1749786811218","rdp_host":"test.example.com","rdp_port":3389}
+[2025-06-13T03:53:31.219Z] INFO: Database connection closed
+[2025-06-13T03:57:10.253Z] INFO: Initializing database...
+[2025-06-13T03:57:10.263Z] INFO: Database initialized successfully
+[2025-06-13T03:57:10.263Z] INFO: Database initialized
+[2025-06-13T03:57:10.263Z] INFO: Initializing RAG system...
+[2025-06-13T03:58:20.857Z] INFO: Initializing database...
+[2025-06-13T03:58:20.863Z] INFO: Database initialized successfully
+[2025-06-13T03:58:20.863Z] INFO: Database initialized
+[2025-06-13T03:58:20.863Z] INFO: Initializing RAG system...
+[2025-06-13T04:02:11.277Z] ERROR: Failed to initialize RAG system:
+[2025-06-13T04:02:11.277Z] ERROR: Failed to initialize application:
+[2025-06-13T04:02:11.278Z] ERROR: Failed to start application:
+[2025-06-13T04:02:14.483Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:02:30.368Z] INFO: Initializing database...
+[2025-06-13T04:02:30.374Z] INFO: Database initialized successfully
+[2025-06-13T04:02:30.375Z] INFO: Database initialized
+[2025-06-13T04:02:30.375Z] INFO: Initializing RAG system...
+[2025-06-13T04:02:41.346Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:02:48.388Z] INFO: Initializing database...
+[2025-06-13T04:02:48.395Z] INFO: Database initialized successfully
+[2025-06-13T04:02:48.395Z] INFO: Database initialized
+[2025-06-13T04:02:48.395Z] INFO: Initializing RAG system...
+[2025-06-13T04:04:45.511Z] INFO: Received SIGTERM, shutting down gracefully
+[2025-06-13T04:05:04.904Z] INFO: Initializing database...
+[2025-06-13T04:05:04.910Z] INFO: Database initialized successfully
+[2025-06-13T04:05:04.911Z] INFO: Database initialized
+[2025-06-13T04:05:04.911Z] INFO: Initializing RAG system...
+[2025-06-13T04:07:05.383Z] INFO: Received SIGTERM, shutting down gracefully
+[2025-06-13T04:07:18.637Z] INFO: Initializing database...
+[2025-06-13T04:07:18.644Z] INFO: Database initialized successfully
+[2025-06-13T04:07:18.644Z] INFO: Database initialized
+[2025-06-13T04:07:18.644Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:07:18.644Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:07:18.644Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:07:18.650Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:07:32.125Z] INFO: GET /dashboard {"ip":"127.0.0.1"}
+[2025-06-13T04:07:32.262Z] INFO: Client connected: "O5TJ3JYf-cTm3axdAAAB"
+[2025-06-13T04:07:32.718Z] INFO: GET /favicon.ico {"ip":"127.0.0.1"}
+[2025-06-13T04:26:05.892Z] INFO: Initializing database...
+[2025-06-13T04:26:05.898Z] INFO: Database initialized successfully
+[2025-06-13T04:26:05.898Z] INFO: Database initialized
+[2025-06-13T04:26:05.898Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:26:05.898Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:26:05.898Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:26:05.905Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:28:32.172Z] INFO: GET /dashboard {"ip":"::1"}
+[2025-06-13T04:28:32.185Z] INFO: Client disconnected: "O5TJ3JYf-cTm3axdAAAB"
+[2025-06-13T04:28:32.263Z] INFO: Client connected: "2zPkXeqylbn1EE_XAAAB"
+[2025-06-13T04:35:56.524Z] INFO: Client connected: "F6fQB7VPrDtx38ohAAAD"
+[2025-06-13T04:36:12.116Z] INFO: Initializing database...
+[2025-06-13T04:36:12.123Z] INFO: Database initialized successfully
+[2025-06-13T04:36:12.123Z] INFO: Database initialized
+[2025-06-13T04:36:12.123Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:36:12.123Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:36:12.123Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:36:12.130Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:36:12.527Z] INFO: Client connected: "yxctF8736NXRDFk6AAAB"
+[2025-06-13T04:37:52.536Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:37:52.537Z] INFO: ActionExecutor initialized
+[2025-06-13T04:37:52.538Z] INFO: Attempting Remotely connection to device: Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe
+[2025-06-13T04:37:52.538Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:37:52.542Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:52.542Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:52.543Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:37:52.543Z] INFO: Attempting to reconnect (1/5)...
+[2025-06-13T04:37:52.544Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:52.544Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:57.544Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:37:57.548Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:57.548Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:37:57.549Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:37:57.549Z] INFO: Attempting to reconnect (2/5)...
+[2025-06-13T04:37:57.550Z] ERROR: Reconnection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:02.550Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:38:02.553Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:02.553Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:02.553Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:38:02.553Z] INFO: Attempting to reconnect (3/5)...
+[2025-06-13T04:38:02.553Z] ERROR: Reconnection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:07.554Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:38:07.556Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:07.557Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:07.557Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:38:07.557Z] INFO: Attempting to reconnect (4/5)...
+[2025-06-13T04:38:07.557Z] ERROR: Reconnection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:12.558Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:38:12.562Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:12.562Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:12.563Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:38:12.563Z] INFO: Attempting to reconnect (5/5)...
+[2025-06-13T04:38:12.563Z] ERROR: Reconnection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:17.564Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:38:17.578Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:17.578Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:38:17.578Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:38:17.579Z] ERROR: Reconnection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:39:49.042Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:39:49.044Z] INFO: Attempting Remotely connection to device: Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe
+[2025-06-13T04:39:49.045Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"Remotely_Desktop[gq5Pcmdhbml6YXRpb25JZKCpU2VydmVyVXJsuGh0dHA6Ly8xOTIuMTY4LjEuMzI6NTAwMQ==].exe"}
+[2025-06-13T04:39:49.047Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:39:49.047Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:39:49.047Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:39:49.048Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:39:49.048Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:40:35.290Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:40:35.295Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:40:35.297Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"153739877"}
+[2025-06-13T04:40:35.300Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:40:35.301Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:40:35.301Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:40:35.301Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:40:35.301Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:41:32.051Z] INFO: Client disconnected: "yxctF8736NXRDFk6AAAB"
+[2025-06-13T04:41:34.031Z] INFO: Client connected: "-rOjsVg_xMMRnQwsAAAD"
+[2025-06-13T04:41:37.886Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:41:37.888Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:41:37.888Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":" http://localhost:5001","deviceId":"153739877"}
+[2025-06-13T04:41:37.893Z] ERROR: Remotely connection error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:41:37.894Z] ERROR: Remotely client error: {"code":"ECONNREFUSED"}
+[2025-06-13T04:41:37.896Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:41:37.896Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:41:37.896Z] ERROR: Remotely connection failed: {"code":"ECONNREFUSED"}
+[2025-06-13T04:42:52.107Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:42:52.108Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:42:52.108Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:42:52.258Z] ERROR: Remotely connection error:
+[2025-06-13T04:42:52.258Z] ERROR: Remotely client error:
+[2025-06-13T04:42:52.261Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:42:52.262Z] ERROR: Remotely connection failed:
+[2025-06-13T04:42:52.262Z] ERROR: Remotely connection failed:
+[2025-06-13T04:43:00.718Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:43:00.720Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:43:00.721Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:43:00.737Z] ERROR: Remotely connection error:
+[2025-06-13T04:43:00.737Z] ERROR: Remotely client error:
+[2025-06-13T04:43:00.738Z] WARN: Remotely connection closed: {"code":1006,"reason":""}
+[2025-06-13T04:43:00.738Z] ERROR: Remotely connection failed:
+[2025-06-13T04:43:00.738Z] ERROR: Remotely connection failed:
+[2025-06-13T04:44:36.107Z] INFO: Received SIGTERM, shutting down gracefully
+[2025-06-13T04:45:13.176Z] INFO: Initializing database...
+[2025-06-13T04:45:13.184Z] INFO: Database initialized successfully
+[2025-06-13T04:45:13.185Z] INFO: Database initialized
+[2025-06-13T04:45:13.185Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:45:13.185Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:45:13.185Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:45:13.191Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:45:17.358Z] INFO: Client connected: "nVIRzjJXunutSRLoAAAB"
+[2025-06-13T04:45:20.403Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:45:20.403Z] INFO: ActionExecutor initialized
+[2025-06-13T04:45:20.403Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:45:20.404Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:45:20.467Z] ERROR: Failed to connect to Remotely: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F:d2e53ce6-bff3-4971-8bb5-12deaad398bc\t","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:45:20.468Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F:d2e53ce6-bff3-4971-8bb5-12deaad398bc\t","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:45:20.468Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F:d2e53ce6-bff3-4971-8bb5-12deaad398bc\t","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:46:12.890Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:46:14.928Z] INFO: Initializing database...
+[2025-06-13T04:46:14.935Z] INFO: Database initialized successfully
+[2025-06-13T04:46:14.935Z] INFO: Database initialized
+[2025-06-13T04:46:14.935Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:46:14.936Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:46:14.936Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:46:14.942Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:46:16.107Z] INFO: Client connected: "OrK6mEI5K4__iZcKAAAB"
+[2025-06-13T04:46:22.972Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:46:22.973Z] INFO: ActionExecutor initialized
+[2025-06-13T04:46:22.973Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:46:22.973Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:46:23.000Z] ERROR: Failed to connect to Remotely: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer d2e53ce6-bff3-4971-8bb5-12deaad398bc","X-API-Key":"H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:46:23.000Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer d2e53ce6-bff3-4971-8bb5-12deaad398bc","X-API-Key":"H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:46:23.000Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer d2e53ce6-bff3-4971-8bb5-12deaad398bc","X-API-Key":"H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:46:28.699Z] INFO: GET /dashboard {"ip":"::1"}
+[2025-06-13T04:46:28.708Z] INFO: Client disconnected: "OrK6mEI5K4__iZcKAAAB"
+[2025-06-13T04:46:28.787Z] INFO: Client connected: "6OzrYwEr2ufm7s71AAAD"
+[2025-06-13T04:47:42.061Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:47:42.063Z] INFO: Attempting Remotely connection to device: 153 739 877
+[2025-06-13T04:47:42.064Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153 739 877"}
+[2025-06-13T04:47:42.117Z] ERROR: Failed to connect to Remotely: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","X-API-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153 739 877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:47:42.117Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","X-API-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153 739 877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:47:42.118Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:33:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","X-API-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153 739 877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:48:47.748Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:48:50.812Z] INFO: Initializing database...
+[2025-06-13T04:48:50.818Z] INFO: Database initialized successfully
+[2025-06-13T04:48:50.818Z] INFO: Database initialized
+[2025-06-13T04:48:50.818Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:48:50.818Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:48:50.819Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:48:50.825Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:48:55.177Z] INFO: Client connected: "q5NPjBYShsfcoXCzAAAB"
+[2025-06-13T04:49:00.817Z] INFO: GET /dashboard {"ip":"::1"}
+[2025-06-13T04:49:00.832Z] INFO: Client disconnected: "q5NPjBYShsfcoXCzAAAB"
+[2025-06-13T04:49:00.947Z] INFO: Client connected: "kncMf_YRgdanyDNtAAAD"
+[2025-06-13T04:50:25.001Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:50:25.001Z] INFO: ActionExecutor initialized
+[2025-06-13T04:50:25.001Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:50:25.002Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:50:25.025Z] ERROR: Failed to connect to Remotely: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:50:25.025Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:50:25.025Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 401","name":"AxiosError","stack":"AxiosError: Request failed with status code 401\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","Authorization":"Bearer H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":401}
+[2025-06-13T04:51:00.948Z] INFO: Client disconnected: "kncMf_YRgdanyDNtAAAD"
+[2025-06-13T04:51:37.344Z] INFO: Client connected: "elKoskrY5HcOT0WbAAAF"
+[2025-06-13T04:52:03.604Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:52:14.390Z] INFO: Initializing database...
+[2025-06-13T04:52:14.396Z] INFO: Database initialized successfully
+[2025-06-13T04:52:14.396Z] INFO: Database initialized
+[2025-06-13T04:52:14.396Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:52:14.397Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:52:14.397Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:52:14.403Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:52:17.046Z] INFO: Client connected: "1HVGkmg4RPGS_VGcAAAB"
+[2025-06-13T04:55:29.147Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T04:55:33.891Z] INFO: Initializing database...
+[2025-06-13T04:55:33.898Z] INFO: Database initialized successfully
+[2025-06-13T04:55:33.898Z] INFO: Database initialized
+[2025-06-13T04:55:33.898Z] INFO: Skipping RAG system initialization (will use fallback)
+[2025-06-13T04:55:33.898Z] INFO: Analytics event listeners setup complete
+[2025-06-13T04:55:33.898Z] INFO: AI Exam Taker application initialized successfully
+[2025-06-13T04:55:33.904Z] INFO: AI Exam Taker server running on http://localhost:3001
+[2025-06-13T04:55:34.610Z] INFO: Client connected: "Gmsm-XJuca6Dnp6GAAAB"
+[2025-06-13T04:55:42.245Z] INFO: GET /dashboard {"ip":"::1"}
+[2025-06-13T04:55:42.254Z] INFO: Client disconnected: "Gmsm-XJuca6Dnp6GAAAB"
+[2025-06-13T04:55:42.327Z] INFO: Client connected: "ctBQhvncf_-ruZdqAAAD"
+[2025-06-13T04:56:12.876Z] INFO: POST /api/rdp/connect {"ip":"::1"}
+[2025-06-13T04:56:12.877Z] INFO: ActionExecutor initialized
+[2025-06-13T04:56:12.878Z] INFO: Attempting Remotely connection to device: 153739877
+[2025-06-13T04:56:12.878Z] INFO: Connecting to Remotely server: {"remotelyServerUrl":"http://192.168.1.32:5001","deviceId":"153739877"}
+[2025-06-13T04:56:13.086Z] ERROR: Failed to connect to Remotely: {"message":"Request failed with status code 404","name":"AxiosError","stack":"AxiosError: Request failed with status code 404\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","X-Api-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc:H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":404}
+[2025-06-13T04:56:13.087Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 404","name":"AxiosError","stack":"AxiosError: Request failed with status code 404\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","X-Api-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc:H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":404}
+[2025-06-13T04:56:13.087Z] ERROR: Remotely connection failed: {"message":"Request failed with status code 404","name":"AxiosError","stack":"AxiosError: Request failed with status code 404\n    at settle (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:2049:12)\n    at IncomingMessage.handleStreamEnd (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:3166:11)\n    at IncomingMessage.emit (node:events:525:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/node_modules/axios/dist/node/axios.cjs:4276:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async RemotelyClient.connect (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/rdp/RemotelyClient.js:38:36)\n    at async ExamTaker.connectRDP (/Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/core/ExamTaker.js:81:28)\n    at async /Users/georgeszulc/Desktop/Projects 2024/AI_Exam_Taker/src/index.js:83:32","config":{"transitional":{"silentJSONParsing":true,"forcedJSONParsing":true,"clarifyTimeoutError":false},"adapter":["xhr","http","fetch"],"transformRequest":[null],"transformResponse":[null],"timeout":0,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN","maxContentLength":-1,"maxBodyLength":-1,"env":{},"headers":{"Accept":"application/json, text/plain, */*","Content-Type":"application/json","X-Api-Key":"d2e53ce6-bff3-4971-8bb5-12deaad398bc:H9w2g61K3GkUheBZPbCMNcKCQ5mgnPZLsvg6iHtGfDdqUH2F","User-Agent":"axios/1.9.0","Accept-Encoding":"gzip, compress, deflate, br"},"method":"get","url":"http://192.168.1.32:5001/api/devices/153739877","allowAbsoluteUrls":true},"code":"ERR_BAD_REQUEST","status":404}
+[2025-06-13T05:02:17.833Z] INFO: Received SIGINT, shutting down gracefully
+[2025-06-13T15:44:43.846Z] INFO: Initializing database...
+[2025-06-13T15:44:43.858Z] INFO: Database initialized successfully
+[2025-06-13T15:44:43.865Z] INFO: Added to knowledge base: {"questionText":"What does the word 'supported' most nearly mean?","answer":"Held up"}
+[2025-06-13T15:44:43.865Z] INFO: Added to knowledge base: {"questionText":"In the context of literature, what does 'fog' ofte","answer":"Confusion or uncertainty"}
+[2025-06-13T15:44:43.866Z] INFO: Added to knowledge base: {"questionText":"What is the main purpose of a bridge in literature","answer":"To connect different elements or ideas"}
+[2025-06-13T15:44:58.172Z] INFO: Initializing database...
+[2025-06-13T15:44:58.179Z] INFO: Database initialized successfully
+[2025-06-13T15:44:58.179Z] INFO: Database initialized
+[2025-06-13T15:44:58.179Z] INFO: Initializing RAG system...
+[2025-06-13T15:45:29.495Z] INFO: Received SIGINT, shutting down gracefully
