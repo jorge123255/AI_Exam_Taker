@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  remotely:
+    image: immybot/remotely:latest
+    platform: linux/amd64
+    container_name: remotely-server
+    restart: unless-stopped
+    ports:
+      - "192.168.1.32:5001:5000"
+    volumes:
+      - remotely_data:/app/AppData
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://*:5000
+      - ApplicationOptions__DBProvider=SQLite
+      - ApplicationOptions__DBConnectionString=Data Source=/app/AppData/Remotely.db
+      - ApplicationOptions__MaxOrganizationCount=1
+      - ApplicationOptions__AllowApiLogin=true
+      - ApplicationOptions__RemoteControlRequiresAuthentication=false
+      - ApplicationOptions__EnableRemoteControlRecording=true
+    networks:
+      - remotely-network
+
+volumes:
+  remotely_data:
+    driver: local
+
+networks:
+  remotely-network:
+    driver: bridge 

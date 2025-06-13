@@ -1,0 +1,2889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Exam Taker Dashboard</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .status-item {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-item.active {
+            background: rgba(76, 175, 80, 0.8);
+        }
+
+        .status-item.inactive {
+            background: rgba(244, 67, 54, 0.8);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .panel-content {
+            padding: 1rem;
+        }
+
+        .control-panel {
+            grid-column: 1 / -1;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .screenshot-container {
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 1rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screenshot-container img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .log-container {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem;
+            border-radius: 3px;
+        }
+
+        .log-entry.info {
+            color: #50fa7b;
+        }
+
+        .log-entry.warning {
+            color: #ffb86c;
+        }
+
+        .log-entry.error {
+            color: #ff5555;
+        }
+
+        .log-entry.ai-reasoning {
+            background: rgba(139, 69, 19, 0.3);
+            color: #f1fa8c;
+        }
+
+        .question-display {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1565c0;
+        }
+
+        .question-options {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .question-options li {
+            padding: 0.25rem 0;
+            color: #424242;
+        }
+
+        .answer-display {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .confidence-bar {
+            background: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff5722 0%, #ff9800 50%, #4caf50 100%);
+            transition: width 0.3s ease;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+        }
+
+        .uncertainty-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .uncertainty-alert.show {
+            display: block;
+        }
+
+        .connection-status-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .connection-status {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.connected {
+            background: #28a745;
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+        }
+
+        .status-dot.connecting {
+            background: #ffc107;
+            box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-dot.disconnected {
+            background: #dc3545;
+            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+        }
+
+        .status-dot.scanning {
+            background: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .status-text {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .connection-details {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .debug-console {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+        }
+
+        .debug-console.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .debug-console-content {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            width: 90%;
+            max-width: 1200px;
+            height: 80%;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .debug-console-header {
+            background: #2d2d2d;
+            padding: 1rem;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .debug-console-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f8f8f2;
+        }
+
+        .debug-console-close {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .debug-console-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .debug-sidebar {
+            width: 250px;
+            background: #2d2d2d;
+            border-right: 1px solid #444;
+            padding: 1rem;
+        }
+
+        .debug-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .debug-tabs {
+            display: flex;
+            background: #2d2d2d;
+            border-bottom: 1px solid #444;
+        }
+
+        .debug-tab {
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .debug-tab.active {
+            color: #f8f8f2;
+            border-bottom-color: #007bff;
+        }
+
+        .debug-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .debug-log-container {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 5px;
+            height: 100%;
+            overflow-y: auto;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .debug-filter-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .debug-filter-btn {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid #444;
+            background: #2d2d2d;
+            color: #aaa;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .debug-filter-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .debug-command-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #444;
+        }
+
+        .debug-command-input input {
+            flex: 1;
+            background: #2d2d2d;
+            border: 1px solid #444;
+            color: #f8f8f2;
+            padding: 0.5rem;
+            border-radius: 3px;
+        }
+
+        .debug-command-input button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .ai-reasoning-step {
+            background: rgba(139, 69, 19, 0.2);
+            border-left: 3px solid #8b4513;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .reasoning-step-header {
+            font-weight: bold;
+            color: #f1fa8c;
+            margin-bottom: 0.25rem;
+        }
+
+        .reasoning-step-content {
+            color: #f8f8f2;
+            font-size: 0.9rem;
+        }
+
+        /* AI Configuration Styles */
+        .ai-config-panel {
+            grid-column: 1 / -1;
+        }
+
+        .config-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .config-section:last-child {
+            border-bottom: none;
+        }
+
+        .config-section h4 {
+            color: #495057;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .config-section h5 {
+            color: #6c757d;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
+
+        /* RAG Status Styles */
+        .rag-status-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            flex-wrap: wrap;
+        }
+
+        .rag-status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+
+        .status-label {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1rem;
+        }
+
+        /* Upload Area Styles */
+        .upload-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .upload-area.drag-over {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .upload-text {
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+
+        .upload-formats {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+
+        /* Upload Progress Styles */
+        .upload-progress {
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #28a745);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #495057;
+        }
+
+        /* Knowledge Browser Styles */
+        .knowledge-browser {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .browser-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .browser-controls input {
+            min-width: 200px;
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .browser-controls select {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            background: white;
+        }
+
+        .document-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .no-documents {
+            padding: 2rem;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .document-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .document-item:hover {
+            background: #f8f9fa;
+        }
+
+        .document-item:last-child {
+            border-bottom: none;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-name {
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 0.25rem;
+        }
+
+        .document-meta {
+            font-size: 0.875rem;
+            color: #6c757d;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .document-actions button {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border-radius: 3px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: #495057;
+        }
+
+        .modal-body {
+            margin-bottom: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+            }
+
+            .debug-console-content {
+                width: 95%;
+                height: 90%;
+            }
+
+            .debug-sidebar {
+                width: 200px;
+            }
+
+            .rag-status-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .rag-status-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .browser-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .browser-controls {
+                justify-content: stretch;
+            }
+
+            .browser-controls input {
+                min-width: auto;
+                flex: 1;
+            }
+
+            .document-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .document-actions {
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 AI Exam Taker Dashboard</h1>
+        <div class="status-bar">
+            <div class="status-item" id="rdp-status">RDP: Disconnected</div>
+            <div class="status-item" id="exam-status">Exam: Inactive</div>
+            <div class="status-item" id="ai-status">AI: Ready</div>
+            <div class="status-item" id="override-status">Manual: Off</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Control Panel -->
+        <div class="panel control-panel">
+            <div class="panel-header">🎮 Control Panel</div>
+            <div class="panel-content">
+                <div class="uncertainty-alert" id="uncertainty-alert">
+                    <strong>⚠️ AI Uncertainty Detected</strong>
+                    <p id="uncertainty-message">The AI is uncertain about the current question and needs human intervention.</p>
+                    <button class="btn btn-warning" onclick="takeManualControl()">Take Control</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Remote Connection Status</label>
+                    <div class="connection-status-container">
+                        <div class="connection-status" id="connection-status">
+                            <div class="status-indicator" id="connection-indicator">
+                                <span class="status-dot scanning" id="connection-dot"></span>
+                                <span class="status-text" id="connection-text">Scanning for connections...</span>
+                            </div>
+                            <div class="connection-details" id="connection-details" style="display: none;">
+                                <div class="detail-item">
+                                    <strong>Server:</strong> <span id="detected-server">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Device:</strong> <span id="detected-device">-</span>
+                                </div>
+                                <div class="detail-item">
+                                    <strong>Status:</strong> <span id="detected-status">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Server Configuration Section -->
+                <div class="form-group">
+                    <label>Server Configuration</label>
+                    <div class="connection-status-container">
+                        <div class="config-section">
+                            <h5>Remote Server Setup</h5>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group" style="margin-bottom: 0.5rem;">
+                                    <label for="server-name">Configuration Name</label>
+                                    <input type="text" id="server-name" placeholder="e.g., Main Exam Server" title="A friendly name for this server configuration">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0.5rem;">
+                                    <label for="server-endpoint">Server Endpoint (FQDN/IP:Port)</label>
+                                    <input type="text" id="server-endpoint" placeholder="e.g., 192.168.1.32:5000 or remotely.company.com:5000" title="The server address and port for the Remotely server">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0.5rem;">
+                                    <label for="device-id">Device ID</label>
+                                    <input type="text" id="device-id" placeholder="Target device identifier" title="The ID of the device you want to control">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0.5rem;">
+                                    <label for="access-key">Access Key</label>
+                                    <input type="password" id="access-key" placeholder="API access key" title="The access key for authentication">
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem;">
+                                <input type="checkbox" id="auto-connect" title="Automatically connect to this server when the application starts">
+                                <label for="auto-connect">Enable Auto-Connect</label>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <button class="btn btn-primary btn-sm" onclick="saveServerConfig()" title="Save this server configuration">Save Configuration</button>
+                                <button class="btn btn-warning btn-sm" onclick="testServerConnection()" title="Test connection to this server">Test Connection</button>
+                                <button class="btn btn-success btn-sm" onclick="generateClientConfig()" title="Generate configuration file for portable client">Generate Client Config</button>
+                                <button class="btn btn-link btn-sm" onclick="showServerConfigModal()" title="Manage saved server configurations">Manage Configurations</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="btn btn-primary" id="connect-btn" onclick="connectRemotely()" disabled title="Connect to the detected remote system">Connect Remotely</button>
+                    <button class="btn btn-danger" id="disconnect-btn" onclick="disconnectRemotely()" disabled title="Disconnect from the remote system">Disconnect</button>
+                    <button class="btn btn-success" id="start-exam-btn" onclick="startExam()" disabled title="Start the AI exam taking session">Start Exam</button>
+                    <button class="btn btn-warning" id="stop-exam-btn" onclick="stopExam()" disabled title="Stop the current exam session">Stop Exam</button>
+                    <button class="btn btn-warning" id="toggle-override-btn" onclick="toggleManualOverride()" title="Take manual control of the remote system">Manual Override</button>
+                    <button class="btn btn-primary" id="debug-console-btn" onclick="toggleDebugConsole()" title="Open the debug console for detailed system information">Debug Console</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Configuration Panel -->
+        <div class="panel ai-config-panel">
+            <div class="panel-header">🤖 AI Configuration</div>
+            <div class="panel-content">
+                <!-- AI Model Settings -->
+                <div class="config-section">
+                    <h4>AI Model Settings</h4>
+                    <div class="form-group">
+                        <label for="ollama-endpoint">Ollama Server URL</label>
+                        <input type="text" id="ollama-endpoint" placeholder="http://localhost:11434" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="vision-model">Vision Model</label>
+                        <select id="vision-model">
+                            <option value="qwen2.5vl:32b-q4_K_M">Qwen2.5VL 32B</option>
+                            <option value="llava:latest">LLaVA Latest</option>
+                            <option value="llava:13b">LLaVA 13B</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reasoning-model">Reasoning Model</label>
+                        <select id="reasoning-model">
+                            <option value="qwen2.5:7b">Qwen2.5 7B</option>
+                            <option value="llama3.1:8b">Llama 3.1 8B</option>
+                            <option value="mistral:7b">Mistral 7B</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="test-ai-btn" onclick="testAIConnection()">Test Connection</button>
+                    <button class="btn btn-success" id="save-config-btn" onclick="saveAIConfig()">Save Configuration</button>
+                </div>
+
+                <!-- RAG Knowledge Management -->
+                <div class="config-section">
+                    <h4>RAG Knowledge Management</h4>
+                    
+                    <!-- Exam Type Selection -->
+                    <div class="form-group">
+                        <label for="exam-type-select">Active Exam Type</label>
+                        <select id="exam-type-select" onchange="switchExamType()" title="Select the type of exam you're taking. The AI will use knowledge specific to this exam type.">
+                            <option value="general">General Knowledge</option>
+                            <option value="aws-architect">AWS Solutions Architect</option>
+                            <option value="comptia-security">CompTIA Security+</option>
+                            <option value="cisco-ccna">Cisco CCNA</option>
+                            <option value="microsoft-azure">Microsoft Azure</option>
+                            <option value="google-cloud">Google Cloud</option>
+                            <option value="custom">Custom Exam Type</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm" onclick="showAddExamTypeModal()">Add New Type</button>
+                    </div>
+
+                    <!-- RAG Status -->
+                    <div class="rag-status-container">
+                        <div class="rag-status-item">
+                            <span class="status-label">RAG Status:</span>
+                            <span class="status-value" id="rag-status">Checking...</span>
+                        </div>
+                        <div class="rag-status-item">
+                            <span class="status-label">Documents:</span>
+                            <span class="status-value" id="rag-document-count">0</span>
+                        </div>
+                        <div class="rag-status-item">
+                            <span class="status-label">Knowledge Base:</span>
+                            <span class="status-value" id="rag-kb-size">0 MB</span>
+                        </div>
+                    </div>
+
+                    <!-- File Upload Area -->
+                    <div class="upload-section">
+                        <div class="upload-area" id="upload-area" ondrop="handleFileDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                            <div class="upload-icon">📁</div>
+                            <div class="upload-text">
+                                <strong>Drag & Drop files here</strong><br>
+                                or <button class="btn-link" onclick="document.getElementById('file-input').click()">browse files</button>
+                            </div>
+                            <div class="upload-formats">Supports: PDF, TXT, DOCX</div>
+                            <input type="file" id="file-input" multiple accept=".pdf,.txt,.docx" style="display: none;" onchange="handleFileSelect(event)">
+                        </div>
+                        
+                        <!-- Upload Progress -->
+                        <div class="upload-progress" id="upload-progress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-text" id="progress-text">Uploading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Knowledge Browser -->
+                    <div class="knowledge-browser">
+                        <div class="browser-header">
+                            <h5>Knowledge Base Browser</h5>
+                            <div class="browser-controls">
+                                <input type="text" id="knowledge-search" placeholder="Search documents..." onkeyup="searchKnowledge()">
+                                <select id="filter-type" onchange="filterKnowledge()">
+                                    <option value="all">All Types</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="txt">Text</option>
+                                    <option value="docx">Word</option>
+                                </select>
+                                <button class="btn btn-danger btn-sm" onclick="clearKnowledgeBase()">Clear All</button>
+                            </div>
+                        </div>
+                        <div class="document-list" id="document-list">
+                            <div class="no-documents">No documents uploaded yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screenshot Panel -->
+        <div class="panel">
+            <div class="panel-header">📸 Live Screen</div>
+            <div class="panel-content">
+                <div class="screenshot-container" id="screenshot-container">
+                    <p>No screenshot available</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Question Panel -->
+        <div class="panel">
+            <div class="panel-header">❓ Current Question</div>
+            <div class="panel-content" id="question-panel">
+                <p>No active question</p>
+            </div>
+        </div>
+
+        <!-- Metrics Panel -->
+        <div class="panel">
+            <div class="panel-header">📊 Performance Metrics</div>
+            <div class="panel-content">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="questions-answered">0</div>
+                        <div class="metric-label">Questions Answered</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="success-rate">0%</div>
+                        <div class="metric-label">Success Rate</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="avg-confidence">0%</div>
+                        <div class="metric-label">Avg Confidence</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="session-time">00:00</div>
+                        <div class="metric-label">Session Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Reasoning Log -->
+        <div class="panel" style="grid-column: 1 / -1;">
+            <div class="panel-header">🧠 AI Reasoning & System Log</div>
+            <div class="panel-content">
+                <div class="log-container" id="log-container">
+                    <div class="log-entry info">[INFO] AI Exam Taker Dashboard initialized</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Debug Console Modal -->
+    <div class="debug-console" id="debug-console">
+        <div class="debug-console-content">
+            <div class="debug-console-header">
+                <div class="debug-console-title">🔧 Debug Console</div>
+                <button class="debug-console-close" onclick="toggleDebugConsole()">Close</button>
+            </div>
+            <div class="debug-console-body">
+                <div class="debug-sidebar">
+                    <h4 style="color: #f8f8f2; margin-bottom: 1rem;">Connection Info</h4>
+                    <div class="detail-item">
+                        <strong>Status:</strong>
+                        <span id="debug-connection-status">Disconnected</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Server:</strong>
+                        <span id="debug-server-url">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Device:</strong>
+                        <span id="debug-device-id">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Session:</strong>
+                        <span id="debug-session-id">-</span>
+                    </div>
+                    
+                    <h4 style="color: #f8f8f2; margin: 1rem 0;">System Stats</h4>
+                    <div class="detail-item">
+                        <strong>Uptime:</strong>
+                        <span id="debug-uptime">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Memory:</strong>
+                        <span id="debug-memory">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <strong>CPU:</strong>
+                        <span id="debug-cpu">-</span>
+                    </div>
+                </div>
+                <div class="debug-main">
+                    <div class="debug-tabs">
+                        <button class="debug-tab active" onclick="switchDebugTab('logs')">System Logs</button>
+                        <button class="debug-tab" onclick="switchDebugTab('reasoning')">AI Reasoning</button>
+                        <button class="debug-tab" onclick="switchDebugTab('network')">Network</button>
+                        <button class="debug-tab" onclick="switchDebugTab('commands')">Commands</button>
+                    </div>
+                    <div class="debug-content">
+                        <div id="debug-logs-tab" class="debug-tab-content">
+                            <div class="debug-filter-bar">
+                                <button class="debug-filter-btn active" data-filter="all" onclick="setDebugFilter('all')">All</button>
+                                <button class="debug-filter-btn" data-filter="info" onclick="setDebugFilter('info')">Info</button>
+                                <button class="debug-filter-btn" data-filter="warning" onclick="setDebugFilter('warning')">Warning</button>
+                                <button class="debug-filter-btn" data-filter="error" onclick="setDebugFilter('error')">Error</button>
+                                <button class="debug-filter-btn" data-filter="ai-reasoning" onclick="setDebugFilter('ai-reasoning')">AI</button>
+                            </div>
+                            <div class="debug-log-container" id="debug-log-container">
+                                <div class="log-entry info">[INFO] Debug console initialized</div>
+                            </div>
+                        </div>
+                        <div id="debug-reasoning-tab" class="debug-tab-content" style="display: none;">
+                            <div class="debug-log-container" id="debug-reasoning-container">
+                                <div class="ai-reasoning-step">
+                                    <div class="reasoning-step-header">System Initialization</div>
+                                    <div class="reasoning-step-content">Debug console ready for AI reasoning visualization</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="debug-network-tab" class="debug-tab-content" style="display: none;">
+                            <div class="debug-log-container" id="debug-network-container">
+                                <div class="log-entry info">[NETWORK] WebSocket connection established</div>
+                                <div class="log-entry info">[NETWORK] Auto-detection service started</div>
+                            </div>
+                        </div>
+                        <div id="debug-commands-tab" class="debug-tab-content" style="display: none;">
+                            <div class="debug-log-container" id="debug-commands-container">
+                                <div class="log-entry info">[CMD] Debug console commands available:</div>
+                                <div class="log-entry info">[CMD] - status: Show system status</div>
+                                <div class="log-entry info">[CMD] - clear: Clear current log</div>
+                                <div class="log-entry info">[CMD] - scan: Force connection scan</div>
+                                <div class="log-entry info">[CMD] - export: Export logs</div>
+                            </div>
+                            <div class="debug-command-input">
+                                <input type="text" id="debug-command" placeholder="Enter debug command..." onkeypress="handleDebugCommand(event)">
+                                <button onclick="executeDebugCommand()">Execute</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Server Configuration Management Modal -->
+    <div class="modal" id="server-config-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <div class="modal-title">Manage Server Configurations</div>
+                <button class="modal-close" onclick="closeServerConfigModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="config-section">
+                    <h5>Saved Configurations</h5>
+                    <div id="server-configs-list" style="max-height: 300px; overflow-y: auto;">
+                        <div style="text-align: center; color: #6c757d; padding: 2rem;">
+                            Loading configurations...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="addNewServerConfig()">Add New Configuration</button>
+                <button class="btn btn-secondary" onclick="closeServerConfigModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Configuration Download Modal -->
+    <div class="modal" id="client-config-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Portable Client Configuration</div>
+                <button class="modal-close" onclick="closeClientConfigModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="config-section">
+                    <h5>Setup Instructions</h5>
+                    <ol style="margin-bottom: 1rem;">
+                        <li>Download the configuration file below</li>
+                        <li>Place it in the same directory as your portable Remotely client</li>
+                        <li>The client will automatically connect using this configuration</li>
+                        <li>Ensure the server endpoint is accessible from the client machine</li>
+                    </ol>
+                    
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+                        <h6>Configuration Preview:</h6>
+                        <pre id="client-config-preview" style="background: #fff; padding: 0.5rem; border-radius: 3px; font-size: 0.8rem; overflow-x: auto;"></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="download-config-btn" onclick="downloadClientConfig()">Download Configuration</button>
+                <button class="btn btn-secondary" onclick="closeClientConfigModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Socket.IO connection
+        const socket = io();
+        
+        // Global state
+        let currentQuestion = null;
+        let sessionStartTime = null;
+        let questionsAnswered = 0;
+        let successfulAnswers = 0;
+        let totalConfidence = 0;
+        let autoDetectionInterval = null;
+        let debugConsoleVisible = false;
+        let debugLogFilters = { all: true, info: false, warning: false, error: false, 'ai-reasoning': false };
+        let connectionAutoDetected = false;
+        let detectedConnectionInfo = null;
+        let currentDebugTab = 'logs';
+
+        // Socket event handlers
+        socket.on('connect', () => {
+            addLog('Connected to AI Exam Taker server', 'info');
+            addDebugLog('WebSocket connection established', 'info', 'network');
+            startAutoDetection();
+        });
+
+        socket.on('disconnect', () => {
+            addLog('Disconnected from server', 'warning');
+            addDebugLog('WebSocket connection lost', 'warning', 'network');
+            stopAutoDetection();
+        });
+
+        socket.on('rdp_connected', (data) => {
+            updateStatus('rdp', true);
+            updateConnectionStatus('connected', data);
+            addLog(`Remotely connected to device: ${data.deviceId}`, 'info');
+            addDebugLog(`RDP connection established to ${data.deviceId}`, 'info', 'network');
+            document.getElementById('connect-btn').disabled = true;
+            document.getElementById('disconnect-btn').disabled = false;
+            document.getElementById('start-exam-btn').disabled = false;
+        });
+
+        socket.on('rdp_disconnected', () => {
+            updateStatus('rdp', false);
+            updateStatus('exam', false);
+            updateConnectionStatus('disconnected');
+            addLog('Remotely disconnected', 'info');
+            addDebugLog('RDP connection terminated', 'info', 'network');
+            document.getElementById('connect-btn').disabled = false;
+            document.getElementById('disconnect-btn').disabled = true;
+            document.getElementById('start-exam-btn').disabled = true;
+            document.getElementById('stop-exam-btn').disabled = true;
+        });
+
+        socket.on('rdp_error', (data) => {
+            addLog(`Remotely error: ${data.error}`, 'error');
+            addDebugLog(`RDP Error: ${data.error}`, 'error', 'network');
+        });
+
+        socket.on('exam_started', (data) => {
+            updateStatus('exam', true);
+            sessionStartTime = new Date();
+            addLog(`Exam started (ID: ${data.examId})`, 'info');
+            addDebugLog(`Exam session started: ${data.examId}`, 'info');
+            document.getElementById('start-exam-btn').disabled = true;
+            document.getElementById('stop-exam-btn').disabled = false;
+        });
+
+        socket.on('exam_stopped', (data) => {
+            updateStatus('exam', false);
+            addLog(`Exam stopped. Questions answered: ${data.questionsAnswered}`, 'info');
+            addDebugLog(`Exam session ended. Total questions: ${data.questionsAnswered}`, 'info');
+            document.getElementById('start-exam-btn').disabled = false;
+            document.getElementById('stop-exam-btn').disabled = true;
+        });
+
+        socket.on('screenshot', (data) => {
+            const container = document.getElementById('screenshot-container');
+            container.innerHTML = `<img src="data:image/jpeg;base64,${data.image}" alt="Live Screenshot" onclick="handleScreenClick(event)">`;
+        });
+
+        socket.on('question_detected', (data) => {
+            currentQuestion = data;
+            displayQuestion(data);
+            addLog(`Question detected: ${data.question.substring(0, 50)}...`, 'info');
+            addDebugLog(`Question detected: ${data.type}`, 'info');
+        });
+
+        socket.on('answer_found', (data) => {
+            displayAnswer(data);
+            questionsAnswered++;
+            if (data.answer.confidence > 0.8) successfulAnswers++;
+            totalConfidence += data.answer.confidence;
+            updateMetrics();
+            addLog(`Answer found: ${data.answer.answer} (Confidence: ${(data.answer.confidence * 100).toFixed(1)}%)`, 'info');
+            addDebugLog(`Answer selected: ${data.answer.answer} (${(data.answer.confidence * 100).toFixed(1)}% confidence)`, 'info');
+        });
+
+        socket.on('ai_reasoning', (data) => {
+            addLog(`AI Reasoning: ${data.reasoning}`, 'ai-reasoning');
+            addLog(`Key Concepts: ${data.keyConcepts.join(', ')}`, 'ai-reasoning');
+            addDebugReasoning(data);
+            if (data.uncertaintyFactors.length > 0) {
+                addLog(`Uncertainty Factors: ${data.uncertaintyFactors.join(', ')}`, 'warning');
+            }
+        });
+
+        socket.on('ai_uncertainty', (data) => {
+            showUncertaintyAlert(data);
+            addLog(`AI Uncertainty: ${data.reason || data.error}`, 'warning');
+            addDebugLog(`AI Uncertainty: ${data.reason || data.error}`, 'warning');
+        });
+
+        socket.on('action_executed', (data) => {
+            addLog(`Action executed: ${data.action} at (${data.coordinates.x}, ${data.coordinates.y})`, 'info');
+            addDebugLog(`Action: ${data.action} at (${data.coordinates.x}, ${data.coordinates.y})`, 'info');
+        });
+
+        socket.on('manual_override_changed', (data) => {
+            updateStatus('override', data.enabled);
+            addLog(`Manual override ${data.enabled ? 'enabled' : 'disabled'}`, 'info');
+            addDebugLog(`Manual override ${data.enabled ? 'enabled' : 'disabled'}`, 'info');
+        });
+
+        socket.on('connection_detected', (data) => {
+            connectionAutoDetected = true;
+            detectedConnectionInfo = data;
+            updateConnectionStatus('detected', data);
+            addDebugLog(`Auto-detected connection: ${data.serverUrl}`, 'info', 'network');
+        });
+
+        socket.on('debug_info', (data) => {
+            updateDebugStats(data);
+        });
+
+        socket.on('exam_type_changed', (data) => {
+            addLog(`Exam type changed to: ${data.examType}`, 'info');
+            currentExamType = data.examType;
+            document.getElementById('exam-type-select').value = data.examType;
+            updateRAGStats();
+        });
+
+        socket.on('exam_readiness_check', (data) => {
+            addLog(`Exam readiness check: ${data.examType} - ${data.isReady ? 'Ready' : 'Not Ready'}`, 'info');
+            updateExamReadinessUI(data.isReady);
+        });
+
+        socket.on('config_updated', (data) => {
+            addLog('Configuration updated', 'info');
+            addDebugLog('Configuration updated successfully', 'info');
+        });
+
+        // UI Functions
+        function updateStatus(type, active) {
+            const statusMap = {
+                'rdp': { element: 'rdp-status', activeText: 'RDP: Connected', inactiveText: 'RDP: Disconnected' },
+                'exam': { element: 'exam-status', activeText: 'Exam: Active', inactiveText: 'Exam: Inactive' },
+                'ai': { element: 'ai-status', activeText: 'AI: Processing', inactiveText: 'AI: Ready' },
+                'override': { element: 'override-status', activeText: 'Manual: On', inactiveText: 'Manual: Off' }
+            };
+
+            const status = statusMap[type];
+            const element = document.getElementById(status.element);
+            element.textContent = active ? status.activeText : status.inactiveText;
+            element.className = `status-item ${active ? 'active' : 'inactive'}`;
+        }
+
+        function updateConnectionStatus(status, data = null) {
+            const dot = document.getElementById('connection-dot');
+            const text = document.getElementById('connection-text');
+            const details = document.getElementById('connection-details');
+            const connectBtn = document.getElementById('connect-btn');
+
+            switch (status) {
+                case 'scanning':
+                    dot.className = 'status-dot scanning';
+                    text.textContent = 'Scanning for connections...';
+                    details.style.display = 'none';
+                    connectBtn.disabled = true;
+                    break;
+                case 'detected':
+                    dot.className = 'status-dot connecting';
+                    text.textContent = 'Connection detected - Ready to connect';
+                    details.style.display = 'block';
+                    document.getElementById('detected-server').textContent = data.serverUrl || '-';
+                    document.getElementById('detected-device').textContent = data.deviceId || '-';
+                    document.getElementById('detected-status').textContent = 'Available';
+                    connectBtn.disabled = false;
+                    break;
+                case 'connected':
+                    dot.className = 'status-dot connected';
+                    text.textContent = 'Connected successfully';
+                    details.style.display = 'block';
+                    document.getElementById('detected-server').textContent = data.serverUrl || data.remotelyServerUrl || '-';
+                    document.getElementById('detected-device').textContent = data.deviceId || '-';
+                    document.getElementById('detected-status').textContent = 'Connected';
+                    break;
+                case 'disconnected':
+                    dot.className = 'status-dot disconnected';
+                    text.textContent = 'Disconnected';
+                    details.style.display = 'none';
+                    connectBtn.disabled = true;
+                    setTimeout(() => {
+                        updateConnectionStatus('scanning');
+                        startAutoDetection();
+                    }, 2000);
+                    break;
+            }
+        }
+
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('log-container');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+
+            // Also add to debug console
+            addDebugLog(message, type);
+        }
+
+        function addDebugLog(message, type = 'info', tab = 'logs') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+
+            const container = document.getElementById(`debug-${tab === 'logs' ? 'log' : tab}-container`);
+            if (container) {
+                container.appendChild(logEntry);
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function addDebugReasoning(data) {
+            const container = document.getElementById('debug-reasoning-container');
+            const reasoningStep = document.createElement('div');
+            reasoningStep.className = 'ai-reasoning-step';
+            reasoningStep.innerHTML = `
+                <div class="reasoning-step-header">AI Analysis - ${new Date().toLocaleTimeString()}</div>
+                <div class="reasoning-step-content">
+                    <strong>Reasoning:</strong> ${data.reasoning}<br>
+                    <strong>Key Concepts:</strong> ${data.keyConcepts.join(', ')}<br>
+                    ${data.uncertaintyFactors.length > 0 ? `<strong>Uncertainty:</strong> ${data.uncertaintyFactors.join(', ')}` : ''}
+                </div>
+            `;
+            container.appendChild(reasoningStep);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function displayQuestion(questionData) {
+            const panel = document.getElementById('question-panel');
+            let optionsHtml = '';
+            
+            if (questionData.options && questionData.options.length > 0) {
+                optionsHtml = '<ul class="question-options">' +
+                    questionData.options.map(opt => `<li>${opt.identifier || '•'} ${opt.text}</li>`).join('') +
+                    '</ul>';
+            }
+
+            panel.innerHTML = `
+                <div class="question-display">
+                    <div class="question-text">${questionData.question}</div>
+                    <div><strong>Type:</strong> ${questionData.type}</div>
+                    <div><strong>Confidence:</strong> ${(questionData.confidence * 100).toFixed(1)}%</div>
+                    ${optionsHtml}
+                </div>
+            `;
+        }
+
+        function displayAnswer(answerData) {
+            const panel = document.getElementById('question-panel');
+            const existingContent = panel.innerHTML;
+            
+            panel.innerHTML = existingContent + `
+                <div class="answer-display">
+                    <div><strong>Selected Answer:</strong> ${answerData.answer.answer}</div>
+                    <div><strong>Source:</strong> ${answerData.answer.source}</div>
+                    <div><strong>Confidence:</strong> ${(answerData.answer.confidence * 100).toFixed(1)}%</div>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${answerData.answer.confidence * 100}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showUncertaintyAlert(data) {
+            const alert = document.getElementById('uncertainty-alert');
+            const message = document.getElementById('uncertainty-message');
+            message.textContent = data.reason || data.error || 'The AI needs human assistance.';
+            alert.classList.add('show');
+        }
+
+        function hideUncertaintyAlert() {
+            document.getElementById('uncertainty-alert').classList.remove('show');
+        }
+
+        function updateMetrics() {
+            document.getElementById('questions-answered').textContent = questionsAnswered;
+            document.getElementById('success-rate').textContent = questionsAnswered > 0 ?
+                Math.round((successfulAnswers / questionsAnswered) * 100) + '%' : '0%';
+            document.getElementById('avg-confidence').textContent = questionsAnswered > 0 ?
+                Math.round((totalConfidence / questionsAnswered) * 100) + '%' : '0%';
+            
+            if (sessionStartTime) {
+                const elapsed = Math.floor((new Date() - sessionStartTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('session-time').textContent =
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function updateDebugStats(data) {
+            document.getElementById('debug-uptime').textContent = data.uptime || '-';
+            document.getElementById('debug-memory').textContent = data.memory || '-';
+            document.getElementById('debug-cpu').textContent = data.cpu || '-';
+        }
+
+        // Auto-detection functions
+        function startAutoDetection() {
+            if (autoDetectionInterval) return;
+            
+            addDebugLog('Starting auto-detection service', 'info', 'network');
+            autoDetectionInterval = setInterval(async () => {
+                try {
+                    const response = await fetch('/api/rdp/detect');
+                    const result = await response.json();
+                    
+                    if (result.success && result.connections && result.connections.length > 0) {
+                        const connection = result.connections[0];
+                        socket.emit('connection_detected', connection);
+                    }
+                } catch (error) {
+                    addDebugLog(`Auto-detection error: ${error.message}`, 'error', 'network');
+                }
+            }, 5000);
+        }
+
+        function stopAutoDetection() {
+            if (autoDetectionInterval) {
+                clearInterval(autoDetectionInterval);
+                autoDetectionInterval = null;
+                addDebugLog('Auto-detection service stopped', 'info', 'network');
+            }
+        }
+
+        // Debug Console Functions
+        function toggleDebugConsole() {
+            const console = document.getElementById('debug-console');
+            debugConsoleVisible = !debugConsoleVisible;
+            
+            if (debugConsoleVisible) {
+                console.classList.add('show');
+                addDebugLog('Debug console opened', 'info');
+            } else {
+                console.classList.remove('show');
+            }
+        }
+
+        function switchDebugTab(tab) {
+            // Hide all tabs
+            document.querySelectorAll('.debug-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.debug-tab').forEach(tabBtn => {
+                tabBtn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(`debug-${tab}-tab`).style.display = 'block';
+            event.target.classList.add('active');
+            currentDebugTab = tab;
+        }
+
+        function setDebugFilter(filter) {
+            // Update filter buttons
+            document.querySelectorAll('.debug-filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Reset filters
+            Object.keys(debugLogFilters).forEach(key => {
+                debugLogFilters[key] = false;
+            });
+            debugLogFilters[filter] = true;
+
+            // Apply filter
+            const logEntries = document.querySelectorAll('#debug-log-container .log-entry');
+            logEntries.forEach(entry => {
+                if (filter === 'all') {
+                    entry.style.display = 'block';
+                } else {
+                    entry.style.display = entry.classList.contains(filter) ? 'block' : 'none';
+                }
+            });
+        }
+
+        function handleDebugCommand(event) {
+            if (event.key === 'Enter') {
+                executeDebugCommand();
+            }
+        }
+
+        function executeDebugCommand() {
+            const input = document.getElementById('debug-command');
+            const command = input.value.trim();
+            
+            if (!command) return;
+
+            addDebugLog(`> ${command}`, 'info', 'commands');
+            
+            switch (command.toLowerCase()) {
+                case 'status':
+                    addDebugLog('System Status:', 'info', 'commands');
+                    addDebugLog(`- RDP: ${document.getElementById('rdp-status').textContent}`, 'info', 'commands');
+                    addDebugLog(`- Exam: ${document.getElementById('exam-status').textContent}`, 'info', 'commands');
+                    addDebugLog(`- AI: ${document.getElementById('ai-status').textContent}`, 'info', 'commands');
+                    break;
+                case 'clear':
+                    document.getElementById('debug-commands-container').innerHTML = '';
+                    addDebugLog('Command log cleared', 'info', 'commands');
+                    break;
+                case 'scan':
+                    addDebugLog('Forcing connection scan...', 'info', 'commands');
+                    stopAutoDetection();
+                    startAutoDetection();
+                    break;
+                case 'export':
+                    exportDebugLogs();
+                    break;
+                default:
+                    addDebugLog(`Unknown command: ${command}`, 'error', 'commands');
+                    addDebugLog('Available commands: status, clear, scan, export', 'info', 'commands');
+            }
+            
+            input.value = '';
+        }
+
+        function exportDebugLogs() {
+            const logs = [];
+            document.querySelectorAll('#debug-log-container .log-entry').forEach(entry => {
+                logs.push(entry.textContent);
+            });
+            
+            const blob = new Blob([logs.join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `debug-logs-${new Date().toISOString().slice(0, 19)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            addDebugLog('Debug logs exported', 'info', 'commands');
+        }
+
+        // Control Functions
+        async function connectRemotely() {
+            if (!connectionAutoDetected || !detectedConnectionInfo) {
+                alert('No connection detected. Please wait for auto-detection to find available connections.');
+                return;
+            }
+
+            try {
+                updateConnectionStatus('connecting');
+                const response = await fetch('/api/rdp/connect', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(detectedConnectionInfo)
+                });
+
+                const result = await response.json();
+                if (!result.success) {
+                    alert('Remotely connection failed: ' + result.error);
+                    updateConnectionStatus('detected', detectedConnectionInfo);
+                }
+            } catch (error) {
+                alert('Connection error: ' + error.message);
+                updateConnectionStatus('detected', detectedConnectionInfo);
+            }
+        }
+
+        async function disconnectRemotely() {
+            try {
+                await fetch('/api/rdp/disconnect', { method: 'POST' });
+            } catch (error) {
+                alert('Disconnection error: ' + error.message);
+            }
+        }
+
+        async function startExam() {
+            try {
+                // Check exam readiness first
+                const readinessResponse = await fetch('/api/exam/readiness');
+                const readinessResult = await readinessResponse.json();
+                
+                if (!readinessResult.isReady) {
+                    const message = `Exam type "${readinessResult.examType}" is not ready. Please upload knowledge documents first.`;
+                    alert(message);
+                    addLog(message, 'warning');
+                    return;
+                }
+                
+                // Check if connected to remote system
+                const statusResponse = await fetch('/api/status');
+                const statusResult = await statusResponse.json();
+                
+                if (!statusResult.rdpConnected) {
+                    alert('Please connect to a remote system first.');
+                    addLog('Cannot start exam: No remote connection', 'warning');
+                    return;
+                }
+                
+                // Start the exam
+                const response = await fetch('/api/exam/start', { method: 'POST' });
+                const result = await response.json();
+                if (!result.success) {
+                    alert('Failed to start exam: ' + result.error);
+                } else {
+                    addLog(`Exam started successfully with exam type: ${currentExamType}`, 'info');
+                }
+            } catch (error) {
+                alert('Start exam error: ' + error.message);
+                addLog('Start exam error: ' + error.message, 'error');
+            }
+        }
+
+        async function stopExam() {
+            try {
+                await fetch('/api/exam/stop', { method: 'POST' });
+            } catch (error) {
+                alert('Stop exam error: ' + error.message);
+            }
+        }
+
+        async function toggleManualOverride() {
+            try {
+                const currentlyOverridden = document.getElementById('override-status').classList.contains('active');
+                const action = currentlyOverridden ? 'release_control' : 'take_control';
+                
+                await fetch('/api/exam/override', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action })
+                });
+
+                if (action === 'take_control') {
+                    hideUncertaintyAlert();
+                }
+            } catch (error) {
+                alert('Override toggle error: ' + error.message);
+            }
+        }
+
+        function takeManualControl() {
+            toggleManualOverride();
+        }
+
+        function handleScreenClick(event) {
+            const overrideActive = document.getElementById('override-status').classList.contains('active');
+            if (!overrideActive) return;
+
+            const img = event.target;
+            const rect = img.getBoundingClientRect();
+            const scaleX = img.naturalWidth / img.width;
+            const scaleY = img.naturalHeight / img.height;
+            
+            const x = Math.round((event.clientX - rect.left) * scaleX);
+            const y = Math.round((event.clientY - rect.top) * scaleY);
+
+            socket.emit('manual_click', { x, y });
+            addLog(`Manual click at (${x}, ${y})`, 'info');
+        }
+
+        // RAG System Management Functions
+        let currentExamType = 'general';
+        let uploadedDocuments = [];
+        let ragStats = { documentCount: 0, isReady: false };
+
+        // Initialize AI Configuration
+        async function initializeAIConfig() {
+            try {
+                // Load saved configuration
+                const configResponse = await fetch('/api/config/load');
+                const configResult = await configResponse.json();
+                
+                if (configResult.success) {
+                    const config = configResult.config;
+                    document.getElementById('ollama-endpoint').value = config.ollama?.endpoint || '';
+                    document.getElementById('vision-model').value = config.ollama?.models?.vision || '';
+                    document.getElementById('reasoning-model').value = config.ollama?.models?.reasoning || '';
+                    
+                    // Set current exam type if saved
+                    if (config.currentExamType) {
+                        currentExamType = config.currentExamType;
+                        document.getElementById('exam-type-select').value = currentExamType;
+                    }
+                }
+
+                // Load current exam type from backend
+                try {
+                    const examTypeResponse = await fetch('/api/exam/current-type');
+                    const examTypeResult = await examTypeResponse.json();
+                    if (examTypeResult.success) {
+                        currentExamType = examTypeResult.examType;
+                        document.getElementById('exam-type-select').value = currentExamType;
+                    }
+                } catch (error) {
+                    console.warn('Failed to load current exam type:', error);
+                }
+
+                // Check exam readiness
+                try {
+                    const readinessResponse = await fetch('/api/exam/readiness');
+                    const readinessResult = await readinessResponse.json();
+                    if (readinessResult.success) {
+                        updateExamReadinessUI(readinessResult.isReady);
+                    }
+                } catch (error) {
+                    console.warn('Failed to check exam readiness:', error);
+                }
+
+                // Load RAG stats
+                await updateRAGStats();
+                
+                // Load documents
+                await loadKnowledgeBase();
+                
+                addLog('AI Configuration initialized', 'info');
+            } catch (error) {
+                addLog('Failed to initialize AI Configuration: ' + error.message, 'error');
+            }
+        }
+
+        async function updateRAGStats() {
+            try {
+                const response = await fetch(`/api/rag/stats/${currentExamType}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    ragStats = result.stats;
+                    document.getElementById('rag-status').textContent = ragStats.isReady ? 'Ready' : 'Not Ready';
+                    document.getElementById('rag-document-count').textContent = ragStats.examTypeCount || 0;
+                    
+                    // Calculate approximate size based on content length
+                    const sizeInMB = ragStats.avgContentLength ?
+                        ((ragStats.examTypeCount * ragStats.avgContentLength) / (1024 * 1024)).toFixed(2) :
+                        '0.00';
+                    document.getElementById('rag-kb-size').textContent = `${sizeInMB} MB`;
+                    
+                    // Update status color
+                    const statusElement = document.getElementById('rag-status');
+                    statusElement.style.color = ragStats.isReady ? '#28a745' : '#dc3545';
+                }
+            } catch (error) {
+                document.getElementById('rag-status').textContent = 'Error';
+                document.getElementById('rag-status').style.color = '#dc3545';
+                addLog('Failed to update RAG stats: ' + error.message, 'error');
+            }
+        }
+
+        async function testAIConnection() {
+            const testBtn = document.getElementById('test-ai-btn');
+            const originalText = testBtn.textContent;
+            
+            try {
+                testBtn.disabled = true;
+                testBtn.textContent = 'Testing...';
+                addLog('Testing AI connection...', 'info');
+                
+                const response = await fetch('/api/health/ollama');
+                const result = await response.json();
+                
+                if (result.success) {
+                    testBtn.textContent = '✅ Connected';
+                    testBtn.style.backgroundColor = '#28a745';
+                    setTimeout(() => {
+                        testBtn.textContent = originalText;
+                        testBtn.style.backgroundColor = '';
+                        testBtn.disabled = false;
+                    }, 2000);
+                    
+                    alert('AI connection successful!');
+                    addLog('AI connection test passed', 'info');
+                } else {
+                    testBtn.textContent = '❌ Failed';
+                    testBtn.style.backgroundColor = '#dc3545';
+                    setTimeout(() => {
+                        testBtn.textContent = originalText;
+                        testBtn.style.backgroundColor = '';
+                        testBtn.disabled = false;
+                    }, 2000);
+                    
+                    alert('AI connection failed: ' + result.error);
+                    addLog('AI connection test failed: ' + result.error, 'error');
+                }
+            } catch (error) {
+                testBtn.textContent = '❌ Error';
+                testBtn.style.backgroundColor = '#dc3545';
+                setTimeout(() => {
+                    testBtn.textContent = originalText;
+                    testBtn.style.backgroundColor = '';
+                    testBtn.disabled = false;
+                }, 2000);
+                
+                alert('AI connection error: ' + error.message);
+                addLog('AI connection error: ' + error.message, 'error');
+            }
+        }
+
+        async function saveAIConfig() {
+            const saveBtn = document.getElementById('save-config-btn');
+            const originalText = saveBtn.textContent;
+            
+            try {
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving...';
+                
+                const config = {
+                    ollama: {
+                        endpoint: document.getElementById('ollama-endpoint').value,
+                        models: {
+                            vision: document.getElementById('vision-model').value,
+                            reasoning: document.getElementById('reasoning-model').value
+                        }
+                    },
+                    currentExamType: currentExamType
+                };
+
+                const response = await fetch('/api/config/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ config: config })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    saveBtn.textContent = '✅ Saved';
+                    saveBtn.style.backgroundColor = '#28a745';
+                    setTimeout(() => {
+                        saveBtn.textContent = originalText;
+                        saveBtn.style.backgroundColor = '';
+                        saveBtn.disabled = false;
+                    }, 2000);
+                    
+                    addLog('AI configuration saved successfully', 'info');
+                    alert('Configuration saved successfully!');
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                saveBtn.textContent = '❌ Error';
+                saveBtn.style.backgroundColor = '#dc3545';
+                setTimeout(() => {
+                    saveBtn.textContent = originalText;
+                    saveBtn.style.backgroundColor = '';
+                    saveBtn.disabled = false;
+                }, 2000);
+                
+                addLog('Failed to save AI configuration: ' + error.message, 'error');
+                alert('Failed to save configuration: ' + error.message);
+            }
+        }
+
+        function updateExamReadinessUI(isReady) {
+            const startExamBtn = document.getElementById('start-exam-btn');
+            const ragStatus = document.getElementById('rag-status');
+            
+            if (isReady) {
+                ragStatus.textContent = 'Ready';
+                ragStatus.style.color = '#28a745';
+                if (startExamBtn && !startExamBtn.disabled) {
+                    startExamBtn.style.backgroundColor = '#28a745';
+                }
+            } else {
+                ragStatus.textContent = 'Not Ready';
+                ragStatus.style.color = '#dc3545';
+                if (startExamBtn) {
+                    startExamBtn.style.backgroundColor = '#6c757d';
+                }
+            }
+        }
+
+        async function switchExamType() {
+            const examType = document.getElementById('exam-type-select').value;
+            currentExamType = examType;
+            addLog(`Switching to exam type: ${examType}`, 'info');
+            
+            try {
+                // Notify backend of exam type change
+                const response = await fetch('/api/exam/set-type', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ examType: examType })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    addLog(`Exam type changed to: ${examType} (Ready: ${result.isReady})`, 'info');
+                    
+                    // Update UI based on readiness
+                    updateExamReadinessUI(result.isReady);
+                } else {
+                    addLog(`Failed to change exam type: ${result.error}`, 'error');
+                }
+                
+                // Update RAG stats and knowledge base
+                await updateRAGStats();
+                await loadKnowledgeBase();
+                
+            } catch (error) {
+                addLog(`Error switching exam type: ${error.message}`, 'error');
+            }
+        }
+
+        // File Upload Functions
+        function handleDragOver(event) {
+            event.preventDefault();
+            document.getElementById('upload-area').classList.add('drag-over');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            document.getElementById('upload-area').classList.remove('drag-over');
+        }
+
+        function handleFileDrop(event) {
+            event.preventDefault();
+            document.getElementById('upload-area').classList.remove('drag-over');
+            
+            const files = Array.from(event.dataTransfer.files);
+            handleFiles(files);
+        }
+
+        function handleFileSelect(event) {
+            const files = Array.from(event.target.files);
+            handleFiles(files);
+        }
+
+        async function handleFiles(files) {
+            const validFiles = files.filter(file => {
+                const validTypes = ['application/pdf', 'text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                return validTypes.includes(file.type);
+            });
+
+            if (validFiles.length === 0) {
+                alert('Please select valid files (PDF, TXT, DOCX)');
+                return;
+            }
+
+            for (const file of validFiles) {
+                await uploadFile(file);
+            }
+        }
+
+        async function uploadFile(file) {
+            try {
+                const formData = new FormData();
+                formData.append('document', file);
+                formData.append('examType', currentExamType);
+                formData.append('source', 'ui_upload');
+                formData.append('description', `Uploaded via UI: ${file.name}`);
+
+                // Show progress
+                const progressContainer = document.getElementById('upload-progress');
+                const progressFill = document.getElementById('progress-fill');
+                const progressText = document.getElementById('progress-text');
+                
+                progressContainer.style.display = 'block';
+                progressText.textContent = `Uploading ${file.name}...`;
+                progressFill.style.width = '0%';
+
+                // Simulate progress (since we can't track real progress easily)
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += Math.random() * 30;
+                    if (progress > 90) progress = 90;
+                    progressFill.style.width = progress + '%';
+                }, 200);
+
+                // Use the new upload-document endpoint
+                const response = await fetch('/api/upload-document', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                clearInterval(progressInterval);
+                progressFill.style.width = '100%';
+
+                const result = await response.json();
+
+                if (result.success) {
+                    progressText.textContent = `✅ ${file.name} uploaded successfully`;
+                    addLog(`File uploaded: ${file.name} (${result.qaPairsExtracted} Q&A pairs extracted)`, 'info');
+                    
+                    // Add to document list
+                    uploadedDocuments.push({
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        examType: currentExamType,
+                        uploadedAt: new Date().toISOString(),
+                        qaPairs: result.qaPairsExtracted
+                    });
+
+                    await updateRAGStats();
+                    await loadKnowledgeBase();
+                } else {
+                    progressText.textContent = `❌ Failed to upload ${file.name}`;
+                    addLog(`Upload failed: ${file.name} - ${result.error}`, 'error');
+                }
+
+                // Hide progress after 3 seconds
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                }, 3000);
+
+            } catch (error) {
+                document.getElementById('upload-progress').style.display = 'none';
+                addLog(`Upload error: ${file.name} - ${error.message}`, 'error');
+                alert(`Upload failed: ${error.message}`);
+            }
+        }
+
+        async function loadKnowledgeBase() {
+            try {
+                const documentList = document.getElementById('document-list');
+                
+                // Load documents from API
+                const response = await fetch(`/api/rag/documents?examType=${currentExamType}&limit=50`);
+                const result = await response.json();
+                
+                if (!result.success) {
+                    documentList.innerHTML = '<div class="no-documents">Failed to load documents</div>';
+                    return;
+                }
+
+                const documents = result.documents || [];
+                
+                if (documents.length === 0) {
+                    documentList.innerHTML = '<div class="no-documents">No documents uploaded yet</div>';
+                    return;
+                }
+
+                // Apply client-side filtering
+                const typeFilter = document.getElementById('filter-type').value;
+                const searchTerm = document.getElementById('knowledge-search').value.toLowerCase();
+                
+                const filteredDocs = documents.filter(doc => {
+                    const matchesType = typeFilter === 'all' || (doc.mime_type && doc.mime_type.includes(typeFilter));
+                    const matchesSearch = !searchTerm ||
+                        (doc.original_filename && doc.original_filename.toLowerCase().includes(searchTerm)) ||
+                        (doc.question && doc.question.toLowerCase().includes(searchTerm));
+                    
+                    return matchesType && matchesSearch;
+                });
+
+                if (filteredDocs.length === 0) {
+                    documentList.innerHTML = '<div class="no-documents">No documents match the current filter</div>';
+                    return;
+                }
+
+                documentList.innerHTML = filteredDocs.map(doc => `
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-name">${doc.original_filename || doc.question || 'Unknown Document'}</div>
+                            <div class="document-meta">
+                                <span>Type: ${getFileTypeDisplay(doc.mime_type)}</span>
+                                <span>Size: ${formatFileSize(doc.file_size || 0)}</span>
+                                <span>Exam: ${doc.subject}</span>
+                                <span>Source: ${doc.source}</span>
+                                <span>Added: ${formatDate(doc.created_at)}</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <button class="btn btn-primary btn-sm" onclick="previewDocument(${doc.id})">Preview</button>
+                            <button class="btn btn-warning btn-sm" onclick="editDocument(${doc.id})">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteDocument(${doc.id})">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                addLog('Failed to load knowledge base: ' + error.message, 'error');
+                document.getElementById('document-list').innerHTML = '<div class="no-documents">Error loading documents</div>';
+            }
+        }
+
+        function searchKnowledge() {
+            loadKnowledgeBase();
+        }
+
+        function filterKnowledge() {
+            loadKnowledgeBase();
+        }
+
+        async function clearKnowledgeBase() {
+            if (!confirm('Are you sure you want to clear the entire knowledge base? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/rag/clear', { method: 'DELETE' });
+                const result = await response.json();
+
+                if (result.success) {
+                    uploadedDocuments = [];
+                    await updateRAGStats();
+                    await loadKnowledgeBase();
+                    addLog('Knowledge base cleared', 'info');
+                    alert('Knowledge base cleared successfully');
+                } else {
+                    alert('Failed to clear knowledge base: ' + result.error);
+                }
+            } catch (error) {
+                addLog('Failed to clear knowledge base: ' + error.message, 'error');
+                alert('Error clearing knowledge base: ' + error.message);
+            }
+        }
+
+        function previewDocument(docName) {
+            // TODO: Implement document preview
+            alert(`Preview functionality for ${docName} will be implemented`);
+        }
+
+        function editDocument(docName) {
+            // TODO: Implement document editing
+            alert(`Edit functionality for ${docName} will be implemented`);
+        }
+
+        async function deleteDocument(docId) {
+            if (!confirm(`Are you sure you want to delete this document?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/rag/documents/${docId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    await loadKnowledgeBase();
+                    await updateRAGStats();
+                    addLog(`Document deleted successfully`, 'info');
+                } else {
+                    alert('Failed to delete document: ' + result.error);
+                }
+            } catch (error) {
+                addLog(`Failed to delete document: ${error.message}`, 'error');
+                alert(`Failed to delete document: ${error.message}`);
+            }
+        }
+
+        function showAddExamTypeModal() {
+            // TODO: Implement add exam type modal
+            const examType = prompt('Enter new exam type name:');
+            if (examType && examType.trim()) {
+                const select = document.getElementById('exam-type-select');
+                const option = document.createElement('option');
+                option.value = examType.toLowerCase().replace(/\s+/g, '-');
+                option.textContent = examType;
+                select.appendChild(option);
+                select.value = option.value;
+                switchExamType();
+                addLog(`Added new exam type: ${examType}`, 'info');
+            }
+        }
+
+        // Utility Functions
+        function getFileTypeDisplay(mimeType) {
+            const typeMap = {
+                'application/pdf': 'PDF',
+                'text/plain': 'Text',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Word'
+            };
+            return typeMap[mimeType] || 'Unknown';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString();
+        }
+
+        // Update session time every second
+        setInterval(updateMetrics, 1000);
+
+        // Update RAG stats every 30 seconds
+        setInterval(updateRAGStats, 30000);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Only handle shortcuts when not typing in input fields
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            // Ctrl/Cmd + key combinations
+            if (event.ctrlKey || event.metaKey) {
+                switch(event.key) {
+                    case 'd':
+                        event.preventDefault();
+                        toggleDebugConsole();
+                        break;
+                    case 's':
+                        event.preventDefault();
+                        if (document.getElementById('start-exam-btn').disabled === false) {
+                            startExam();
+                        }
+                        break;
+                    case 'q':
+                        event.preventDefault();
+                        if (document.getElementById('stop-exam-btn').disabled === false) {
+                            stopExam();
+                        }
+                        break;
+                    case 'm':
+                        event.preventDefault();
+                        toggleManualOverride();
+                        break;
+                }
+            }
+            
+            // Escape key to close modals
+            if (event.key === 'Escape') {
+                if (debugConsoleVisible) {
+                    toggleDebugConsole();
+                }
+            }
+        });
+
+        // Server Configuration Management Functions
+        let currentServerConfigs = [];
+        let currentClientConfig = null;
+
+        async function saveServerConfig() {
+            try {
+                const configData = {
+                    name: document.getElementById('server-name').value.trim(),
+                    server_endpoint: document.getElementById('server-endpoint').value.trim(),
+                    device_id: document.getElementById('device-id').value.trim(),
+                    access_key: document.getElementById('access-key').value.trim(),
+                    auto_connect: document.getElementById('auto-connect').checked,
+                    description: `Server configuration created on ${new Date().toLocaleDateString()}`
+                };
+
+                if (!configData.name || !configData.server_endpoint) {
+                    alert('Please provide at least a name and server endpoint');
+                    return;
+                }
+
+                const response = await fetch('/api/remote-servers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(configData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    addLog(`Server configuration saved: ${configData.name}`, 'info');
+                    alert('Server configuration saved successfully!');
+                    
+                    // Clear the form
+                    document.getElementById('server-name').value = '';
+                    document.getElementById('server-endpoint').value = '';
+                    document.getElementById('device-id').value = '';
+                    document.getElementById('access-key').value = '';
+                    document.getElementById('auto-connect').checked = false;
+                    
+                    // Refresh auto-detection
+                    await refreshAutoDetection();
+                } else {
+                    alert('Failed to save configuration: ' + result.error);
+                }
+            } catch (error) {
+                addLog('Failed to save server configuration: ' + error.message, 'error');
+                alert('Error saving configuration: ' + error.message);
+            }
+        }
+
+        async function testServerConnection() {
+            try {
+                const configData = {
+                    name: 'Test Configuration',
+                    server_endpoint: document.getElementById('server-endpoint').value.trim(),
+                    device_id: document.getElementById('device-id').value.trim(),
+                    access_key: document.getElementById('access-key').value.trim()
+                };
+
+                if (!configData.server_endpoint || !configData.device_id || !configData.access_key) {
+                    alert('Please fill in server endpoint, device ID, and access key for testing');
+                    return;
+                }
+
+                addLog('Testing server connection...', 'info');
+                
+                // Save temporarily for testing
+                const saveResponse = await fetch('/api/remote-servers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(configData)
+                });
+
+                const saveResult = await saveResponse.json();
+                if (!saveResult.success) {
+                    alert('Failed to prepare test: ' + saveResult.error);
+                    return;
+                }
+
+                // Test the connection
+                const testResponse = await fetch(`/api/remote-servers/${saveResult.id}/test-connection`, {
+                    method: 'POST'
+                });
+
+                const testResult = await testResponse.json();
+                
+                // Clean up test configuration
+                await fetch(`/api/remote-servers/${saveResult.id}`, { method: 'DELETE' });
+
+                if (testResult.success) {
+                    addLog('Connection test successful', 'info');
+                    alert('✅ Connection test successful! The server is reachable and credentials are valid.');
+                } else {
+                    addLog('Connection test failed: ' + testResult.error, 'error');
+                    alert('❌ Connection test failed: ' + testResult.error);
+                }
+            } catch (error) {
+                addLog('Connection test error: ' + error.message, 'error');
+                alert('Error testing connection: ' + error.message);
+            }
+        }
+
+        async function generateClientConfig() {
+            try {
+                const configData = {
+                    name: document.getElementById('server-name').value.trim() || 'Temporary Config',
+                    server_endpoint: document.getElementById('server-endpoint').value.trim(),
+                    device_id: document.getElementById('device-id').value.trim(),
+                    access_key: document.getElementById('access-key').value.trim(),
+                    auto_connect: document.getElementById('auto-connect').checked
+                };
+
+                if (!configData.server_endpoint) {
+                    alert('Please provide a server endpoint to generate client configuration');
+                    return;
+                }
+
+                // Save temporarily for config generation
+                const saveResponse = await fetch('/api/remote-servers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(configData)
+                });
+
+                const saveResult = await saveResponse.json();
+                if (!saveResult.success) {
+                    alert('Failed to prepare configuration: ' + saveResult.error);
+                    return;
+                }
+
+                // Generate client config
+                const configResponse = await fetch(`/api/remote-servers/${saveResult.id}/generate-client-config`, {
+                    method: 'POST'
+                });
+
+                const configResult = await configResponse.json();
+                
+                if (configResult.success) {
+                    currentClientConfig = {
+                        config: configResult.clientConfig,
+                        filename: configResult.downloadFilename,
+                        tempId: saveResult.id
+                    };
+                    
+                    // Show the config in the modal
+                    document.getElementById('client-config-preview').textContent =
+                        JSON.stringify(configResult.clientConfig, null, 2);
+                    
+                    document.getElementById('client-config-modal').classList.add('show');
+                    addLog('Client configuration generated', 'info');
+                } else {
+                    alert('Failed to generate client configuration: ' + configResult.error);
+                }
+            } catch (error) {
+                addLog('Failed to generate client configuration: ' + error.message, 'error');
+                alert('Error generating configuration: ' + error.message);
+            }
+        }
+
+        async function downloadClientConfig() {
+            if (!currentClientConfig) {
+                alert('No configuration available for download');
+                return;
+            }
+
+            try {
+                const blob = new Blob([JSON.stringify(currentClientConfig.config, null, 2)], {
+                    type: 'application/json'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = currentClientConfig.filename;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                addLog(`Client configuration downloaded: ${currentClientConfig.filename}`, 'info');
+                closeClientConfigModal();
+            } catch (error) {
+                alert('Error downloading configuration: ' + error.message);
+            }
+        }
+
+        async function showServerConfigModal() {
+            try {
+                await loadServerConfigurations();
+                document.getElementById('server-config-modal').classList.add('show');
+            } catch (error) {
+                alert('Error loading server configurations: ' + error.message);
+            }
+        }
+
+        async function loadServerConfigurations() {
+            try {
+                const response = await fetch('/api/remote-servers');
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentServerConfigs = result.configs;
+                    displayServerConfigurations();
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                document.getElementById('server-configs-list').innerHTML =
+                    '<div style="text-align: center; color: #dc3545; padding: 2rem;">Failed to load configurations</div>';
+                throw error;
+            }
+        }
+
+        function displayServerConfigurations() {
+            const container = document.getElementById('server-configs-list');
+            
+            if (currentServerConfigs.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6c757d; padding: 2rem;">No configurations saved yet</div>';
+                return;
+            }
+
+            container.innerHTML = currentServerConfigs.map(config => `
+                <div class="document-item" style="border: 1px solid #dee2e6; margin-bottom: 0.5rem;">
+                    <div class="document-info">
+                        <div class="document-name">${config.name}</div>
+                        <div class="document-meta">
+                            <span>Endpoint: ${config.server_endpoint}</span>
+                            <span>Device: ${config.device_id || 'Not specified'}</span>
+                            <span>Auto-Connect: ${config.auto_connect ? 'Yes' : 'No'}</span>
+                            <span>Created: ${formatDate(config.created_at)}</span>
+                            ${config.last_connected_at ? `<span>Last Used: ${formatDate(config.last_connected_at)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn btn-primary btn-sm" onclick="loadServerConfig('${config.id}')">Load</button>
+                        <button class="btn btn-warning btn-sm" onclick="testServerConfigById('${config.id}')">Test</button>
+                        <button class="btn btn-success btn-sm" onclick="generateConfigById('${config.id}')">Generate</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteServerConfig('${config.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadServerConfig(configId) {
+            try {
+                const config = currentServerConfigs.find(c => c.id === configId);
+                if (!config) {
+                    alert('Configuration not found');
+                    return;
+                }
+
+                document.getElementById('server-name').value = config.name;
+                document.getElementById('server-endpoint').value = config.server_endpoint;
+                document.getElementById('device-id').value = config.device_id || '';
+                document.getElementById('access-key').value = config.access_key || '';
+                document.getElementById('auto-connect').checked = config.auto_connect;
+
+                closeServerConfigModal();
+                addLog(`Loaded server configuration: ${config.name}`, 'info');
+            } catch (error) {
+                alert('Error loading configuration: ' + error.message);
+            }
+        }
+
+        async function deleteServerConfig(configId) {
+            try {
+                const config = currentServerConfigs.find(c => c.id === configId);
+                if (!config) {
+                    alert('Configuration not found');
+                    return;
+                }
+
+                if (!confirm(`Are you sure you want to delete the configuration "${config.name}"?`)) {
+                    return;
+                }
+
+                const response = await fetch(`/api/remote-servers/${configId}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    addLog(`Deleted server configuration: ${config.name}`, 'info');
+                    await loadServerConfigurations();
+                } else {
+                    alert('Failed to delete configuration: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error deleting configuration: ' + error.message);
+            }
+        }
+
+        async function testServerConfigById(configId) {
+            try {
+                const response = await fetch(`/api/remote-servers/${configId}/test-connection`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('✅ Connection test successful!');
+                    addLog('Connection test successful for saved configuration', 'info');
+                } else {
+                    alert('❌ Connection test failed: ' + result.error);
+                    addLog('Connection test failed for saved configuration: ' + result.error, 'error');
+                }
+            } catch (error) {
+                alert('Error testing connection: ' + error.message);
+            }
+        }
+
+        async function generateConfigById(configId) {
+            try {
+                const response = await fetch(`/api/remote-servers/${configId}/generate-client-config`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    currentClientConfig = {
+                        config: result.clientConfig,
+                        filename: result.downloadFilename,
+                        tempId: null
+                    };
+                    
+                    document.getElementById('client-config-preview').textContent =
+                        JSON.stringify(result.clientConfig, null, 2);
+                    
+                    closeServerConfigModal();
+                    document.getElementById('client-config-modal').classList.add('show');
+                    addLog('Client configuration generated from saved config', 'info');
+                } else {
+                    alert('Failed to generate client configuration: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error generating configuration: ' + error.message);
+            }
+        }
+
+        function closeServerConfigModal() {
+            document.getElementById('server-config-modal').classList.remove('show');
+        }
+
+        async function closeClientConfigModal() {
+            document.getElementById('client-config-modal').classList.remove('show');
+            
+            // Clean up temporary configuration if it exists
+            if (currentClientConfig && currentClientConfig.tempId) {
+                try {
+                    await fetch(`/api/remote-servers/${currentClientConfig.tempId}`, { method: 'DELETE' });
+                } catch (error) {
+                    console.warn('Failed to clean up temporary configuration:', error);
+                }
+            }
+            
+            currentClientConfig = null;
+        }
+
+        function addNewServerConfig() {
+            closeServerConfigModal();
+            // Clear the form for new configuration
+            document.getElementById('server-name').value = '';
+            document.getElementById('server-endpoint').value = '';
+            document.getElementById('device-id').value = '';
+            document.getElementById('access-key').value = '';
+            document.getElementById('auto-connect').checked = false;
+            
+            // Focus on the name field
+            document.getElementById('server-name').focus();
+        }
+
+        async function refreshAutoDetection() {
+            try {
+                const response = await fetch('/api/rdp/detect');
+                const result = await response.json();
+                
+                if (result.success && result.connections && result.connections.length > 0) {
+                    const connection = result.connections[0];
+                    socket.emit('connection_detected', connection);
+                    addLog('Auto-detection refreshed, found configured connections', 'info');
+                } else {
+                    addLog('Auto-detection refreshed, no connections found', 'info');
+                }
+            } catch (error) {
+                addLog('Failed to refresh auto-detection: ' + error.message, 'error');
+            }
+        }
+
+        // Enhanced socket event handlers for auto-connect
+        socket.on('auto_connect_initiated', (data) => {
+            addLog(`Auto-connecting to: ${data.config.name}`, 'info');
+            updateConnectionStatus('connecting');
+        });
+
+        socket.on('auto_connect_success', (data) => {
+            addLog(`Auto-connection successful: ${data.config.name}`, 'info');
+            updateConnectionStatus('connected', data.config);
+        });
+
+        socket.on('auto_connect_failed', (data) => {
+            addLog(`Auto-connection failed: ${data.config.name} - ${data.error}`, 'error');
+            updateConnectionStatus('disconnected');
+        });
+
+        // Initialize
+        addLog('Dashboard ready. Auto-detection starting...', 'info');
+        addLog('Keyboard shortcuts: Ctrl+D (Debug), Ctrl+S (Start), Ctrl+Q (Stop), Ctrl+M (Manual), Esc (Close)', 'info');
+        updateConnectionStatus('scanning');
+        initializeAIConfig();
+</script>
+</body>
+</html>

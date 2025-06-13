@@ -1,0 +1,24 @@
+{
+  "serverEndpoint": "192.168.1.32:5000",
+  "deviceId": "exam-computer-001",
+  "accessKey": "your-api-access-key-here",
+  "organizationId": "your-organization-id",
+  "autoConnect": true,
+  "connectionTimeout": 30000,
+  "retryAttempts": 3,
+  "generatedAt": "2025-06-13T15:43:00.000Z",
+  "instructions": [
+    "1. Save this configuration file as 'remotely-config.json'",
+    "2. Place it in the same directory as your Remotely client",
+    "3. The client will automatically use this configuration on startup",
+    "4. Ensure the server endpoint is accessible from the client machine"
+  ],
+  "description": "Example configuration for AI Exam Taker auto-connect setup",
+  "notes": [
+    "Replace 'serverEndpoint' with your actual Remotely server address",
+    "Replace 'deviceId' with the ID of the target exam computer",
+    "Replace 'accessKey' with your actual API access key",
+    "Set 'autoConnect' to true for automatic connection on startup",
+    "Adjust timeout and retry settings as needed for your network"
+  ]
+}
